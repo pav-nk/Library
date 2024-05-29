@@ -1,9 +1,21 @@
 {
+  "name": "library",
+  "version": "1.0.0",
+  "description": "The Odin Project: JavaScript Course",
+  "keywords": [],
+  "author": "pav-nk",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rm dist/bundle.js",
+    "start": "parcel src/index.html",
+    "build-prod": "parcel build src/index.html --public-url ./"
+  },
   "dependencies": {
     "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@parcel/transformer-stylus": "^2.12.0",
-    "parcel": "^2.12.0"
+    "parcel": "^2.12.0",
+    "stylus": "^0.63.0"
   }
 }

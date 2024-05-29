@@ -1,0 +1,1 @@
+{"mappings":"","sources":["src/script.js"],"sourcesContent":["const myLibrary = [];\r\n\r\nfunction Book() {\r\n  // the constructor...\r\n}\r\n\r\nfunction addBookToLibrary() {\r\n  // do stuff here\r\n}\r\n"],"names":[],"version":3,"file":"index.45bbbc8c.js.map"}
