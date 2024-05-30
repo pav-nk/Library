@@ -1,1 +1,74 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik+Mono+One&display=swap" rel="stylesheet"><link rel="icon" type="image/x-icon" href="favicon.a71cfd84.svg"><link rel="stylesheet" href="index.a26d94f3.css"><link rel="stylesheet" href="index.304d5f67.css"><script src="index.45bbbc8c.js" defer></script><title>Library</title></head><body> <header class="header"> <div class="wrapper"> <div class="header__inner"> <h1 class="title">Library</h1> <div class="header__menu"> <button class="button button--delete"></button> <a class="link link--github" href="https://github.com/pav-nk" target="_blank" rel="noopener noreferrer"></a> </div> </div> </div> </header> <main> <section class="library"> <div class="wrapper"> <p class="description"> This is a project for <a href="https://www.theodinproject.com/">The Odin Project</a> in which I have to make a library using <span>Object Constructors</span> and <span>LocalStorage</span>.<br> You can also view the <a href="https://github.com/pav-nk/Library">Github repository</a> of this project. </p> <div class="library__inner"> <form class="entry-field" name="form" novalidate> <div class="entry-field__item entry-field__item--name"> <label for="name">Book</label> <input type="text" id="name" placeholder="enter the title of your book" required> </div> <div class="entry-field__item entry-field__item--author"> <label for="author">Author</label> <input type="text" id="author" placeholder="enter the author of your book" required> </div> <div class="entry-field__item entry-field__item--status"> <label for="status">Status</label> <select name="status" id="status"> <option value="read">Read</option> <option value="not read">Not read</option> </select> </div> <input type="submit" value="Add book" class="button button--submit"> </form> <table class="library__table table"> <thead> <tr> <th>Book</th> <th>Author</th> <th>Pages</th> <th colspan="2">Status</th> </tr> </thead> <tbody> <tr class="library__item"> <td>Naruto</td> <td>Masashi Kishimoto</td> <td>320</td> <td><span class="read-status">read</span></td> <td><button class="button button--remove">delete</button></td> </tr> </tbody> </table> </div> </div> </section> </main> </body></html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/favicon.49baf9d1.svg">
+    <link rel="stylesheet" href="/index.8929fe45.css">
+    <link rel="stylesheet" href="/index.82c4c3d4.css">
+    <script src="/index.44983732.js" defer=""></script>
+    <title>Library</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="wrapper">
+        <div class="header__inner">
+          <h1 class="title">Library</h1>
+          <div class="header__menu">
+            <button class="button button--delete"></button>
+            <a class="link link--github" href="https://github.com/pav-nk" target="_blank" rel="noopener noreferrer"></a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="library">
+        <div class="wrapper">
+          <p class="description">
+            This is a project for
+            <a href="https://www.theodinproject.com/">The Odin Project</a> in
+            which I have to make a library using
+            <span>Object Constructors</span> and
+            <span>LocalStorage</span>.<br>
+            You can also view the
+            <a href="https://github.com/pav-nk/Library">Github repository</a>
+            of this project.
+          </p>
+          <div class="library__inner">
+            <form class="entry-field" name="form" novalidate="">
+              <div class="entry-field__item entry-field__item--name">
+                <label for="name">Book</label>
+                <input type="text" name="name" id="name" min="3" max="20" placeholder="enter the title of your book" required="">
+              </div>
+              <div class="entry-field__item entry-field__item--author">
+                <label for="author">Author</label>
+                <input min="3" max="20" name="author" type="text" id="author" placeholder="enter the author of your book" required="">
+              </div>
+              <div class="entry-field__item entry-field__item--status">
+                <label for="status">Status</label>
+                <select name="status" id="status">
+                  <option value="1">Read</option>
+                  <option value="0">Not read</option>
+                </select>
+              </div>
+              <input type="submit" value="New book" class="button button--submit">
+            </form>
+            <table class="library__table table">
+              <thead>
+                <tr>
+                  <th>Book</th>
+                  <th>Author</th>
+                  <th colspan="2">Status</th>
+                </tr>
+              </thead>
+              <tbody class="library__items"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  <script src="/Library.59712999.js"></script></body>
+</html>

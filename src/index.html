@@ -51,7 +51,10 @@
                 <label for="name">Book</label>
                 <input
                   type="text"
+                  name="name"
                   id="name"
+                  min="3"
+                  max="20"
                   placeholder="enter the title of your book"
                   required
                 />
@@ -59,6 +62,9 @@
               <div class="entry-field__item entry-field__item--author">
                 <label for="author">Author</label>
                 <input
+                  min="3"
+                  max="20"
+                  name="author"
                   type="text"
                   id="author"
                   placeholder="enter the author of your book"
@@ -68,13 +74,13 @@
               <div class="entry-field__item entry-field__item--status">
                 <label for="status">Status</label>
                 <select name="status" id="status">
-                  <option value="read">Read</option>
-                  <option value="not read">Not read</option>
+                  <option value="1">Read</option>
+                  <option value="0">Not read</option>
                 </select>
               </div>
               <input
                 type="submit"
-                value="Add book"
+                value="New book"
                 class="button button--submit"
               />
             </form>
@@ -83,19 +89,10 @@
                 <tr>
                   <th>Book</th>
                   <th>Author</th>
-                  <th>Pages</th>
                   <th colspan="2">Status</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr class="library__item">
-                  <td>Naruto</td>
-                  <td>Masashi Kishimoto</td>
-                  <td>320</td>
-                  <td><span class="read-status">read</span></td>
-                  <td><button class="button button--remove">delete</button></td>
-                </tr>
-              </tbody>
+              <tbody class="library__items"></tbody>
             </table>
           </div>
         </div>
