@@ -101,6 +101,17 @@ a:hover {
   border: 2px solid #ff204e;
 }
 
+.button--status {
+  color: #373a40;
+  border: 2px solid #373a40;
+  padding: 2px 8px;
+  font-size: 1.6rem;
+}
+
+.button--status:hover, .button--status.button--status:focus {
+  border: 2px solid #ff204e;
+}
+
 .header {
   background-color: #373a40;
   padding: 15px 0;

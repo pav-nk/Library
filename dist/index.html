@@ -41,17 +41,17 @@
             <form class="entry-field" name="form" novalidate="">
               <div class="entry-field__item entry-field__item--name">
                 <label for="name">Book</label>
-                <input type="text" name="name" id="name" min="3" max="20" placeholder="enter the title of your book" required="">
+                <input type="text" name="name" id="name" placeholder="enter the title of your book" required="">
               </div>
               <div class="entry-field__item entry-field__item--author">
                 <label for="author">Author</label>
-                <input min="3" max="20" name="author" type="text" id="author" placeholder="enter the author of your book" required="">
+                <input name="author" type="text" id="author" placeholder="enter the author of your book" required="">
               </div>
               <div class="entry-field__item entry-field__item--status">
                 <label for="status">Status</label>
                 <select name="status" id="status">
-                  <option value="1">Read</option>
-                  <option value="0">Not read</option>
+                  <option value="read">Read</option>
+                  <option value="unread">Not read</option>
                 </select>
               </div>
               <input type="submit" value="New book" class="button button--submit">

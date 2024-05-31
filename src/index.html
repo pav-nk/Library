@@ -53,8 +53,6 @@
                   type="text"
                   name="name"
                   id="name"
-                  min="3"
-                  max="20"
                   placeholder="enter the title of your book"
                   required
                 />
@@ -62,8 +60,6 @@
               <div class="entry-field__item entry-field__item--author">
                 <label for="author">Author</label>
                 <input
-                  min="3"
-                  max="20"
                   name="author"
                   type="text"
                   id="author"
@@ -74,8 +70,8 @@
               <div class="entry-field__item entry-field__item--status">
                 <label for="status">Status</label>
                 <select name="status" id="status">
-                  <option value="1">Read</option>
-                  <option value="0">Not read</option>
+                  <option value="read">Read</option>
+                  <option value="unread">Not read</option>
                 </select>
               </div>
               <input
