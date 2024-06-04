@@ -1,6 +1,7 @@
 // nodes
 const form = document.body.querySelector(".entry-field");
 const booksContainer = document.body.querySelector(".library__items");
+const deleteLibraryButton = document.body.querySelector(".button--delete");
 
 let myLibrary = [];
 
@@ -14,52 +15,72 @@ function Book(id, name, author, status) {
   };
 }
 
-function addBookToLibrary() {
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const newBookData = Object.fromEntries(formData);
-    newBookData.id = myLibrary.length + 1;
-    const { id, name, author, status } = newBookData;
-    const newBook = new Book(id, name, author, status);
-    myLibrary.push(newBook);
-    console.log(myLibrary);
-    e.target.reset();
-    renderBooks();
+function addBookToLibrary(event) {
+  const formData = new FormData(event.target);
+  const newBookData = Object.fromEntries(formData);
+  newBookData.id = myLibrary.length + 1;
+  const { id, name, author, status } = newBookData;
+  const newBook = new Book(id, name, author, status);
+  myLibrary.push(newBook);
+  event.target.reset();
+  renderBook(newBook);
+  addDeleteBookEvent(id);
+  addToggleStatusBookEvent(id);
+  addEventDeleteLibrary();
+}
+
+function renderBook(newBook) {
+  const { id, name, author, status } = newBook;
+  booksContainer.insertAdjacentHTML(
+    "beforeend",
+    `
+      <tr class="library__item" data-id=${id}>
+        <td>${name}</td>
+        <td>${author}</td>
+        <td><button class="button button--status">${status}</button></td>
+        <td><button class="button button--remove">delete</button></td>
+      </tr>
+    `
+  );
+}
+
+function addDeleteBookEvent(id) {
+  const removeCurrentBtn = document.querySelector(
+    `[data-id='${id}'] .button--remove`
+  );
+  console.log(removeCurrentBtn);
+  removeCurrentBtn.addEventListener("click", () => {
+    const currentBook = removeCurrentBtn.closest(".library__item");
+    currentBook.remove();
+    myLibrary = myLibrary.filter((item) => item.id !== id);
   });
 }
 
-function renderBooks() {
-  booksContainer.innerHTML = "";
-  for (const book of myLibrary) {
-    const { id, name, author, status } = book;
-    booksContainer.insertAdjacentHTML(
-      "beforeend",
-      `
-    <tr class="library__item">
-      <td>${name}</td>
-      <td>${author}</td>
-      <td><button class="button button--status">${status}</button></td>
-      <td><button class="button button--remove" data-id=${id}>delete</button></td>
-    </tr>
-    `
-    );
-  }
-  addListeners();
-}
-
-function addListeners() {
-  const deleteButtons = Array.from(
-    document.querySelectorAll(".button--remove")
+function addToggleStatusBookEvent(id) {
+  const statusCurrentBtn = document.querySelector(
+    `[data-id='${id}'] .button--status`
   );
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      console.log(button);
-      const currentId = button.dataset.id;
-      myLibrary = myLibrary.filter((book) => book.id !== +currentId);
-      renderBooks();
+  statusCurrentBtn.addEventListener("click", () => {
+    statusCurrentBtn.textContent =
+      statusCurrentBtn.textContent === "read" ? "unread" : "read";
+    myLibrary = myLibrary.map((item) => {
+      if (item.id === id) {
+        item.toggleStatus();
+      }
+      return item;
     });
   });
 }
 
-addBookToLibrary();
+function addEventDeleteLibrary() {
+  deleteLibraryButton.addEventListener("click", () => {
+    form.reset();
+    myLibrary = [];
+    booksContainer.innerHTML = "";
+  });
+}
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  addBookToLibrary(event);
+});
