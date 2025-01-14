@@ -1,46 +1,29 @@
 // nodes
 const form = document.body.querySelector(".entry-field");
 const booksContainer = document.body.querySelector(".library__items");
-const deleteLibraryButton = document.body.querySelector(".button--delete");
+const deleteBtn = document.body.querySelector(".button--delete");
 const errorMessage = document.body.querySelector(".error-message");
-
-let myLibrary = [];
-
-function Book(id, name, author, status) {
-  this.id = id;
-  this.name = name;
-  this.author = author;
-  this.status = status;
-  this.toggleStatus = function () {
-    this.status = this.status === "read" ? "unread" : "read";
-  };
-}
-
-function addBookToLibrary(event) {
-  const formData = new FormData(event.target);
-  const newBookData = Object.fromEntries(formData);
-  newBookData.id = myLibrary.length + 1;
-  const { id, name, author, status } = newBookData;
-  console.log(name, author)
-  if (name === '' || author === '') {
-    errorMessage.textContent = 'Error: fill in all fields of the form';
-    return;
+class Book {
+  constructor(id, name, author, status) {
+    this.id = id;
+    this.name = name;
+    this.author = author;
+    this.status = status;
   }
-  errorMessage.textContent = '';
-  const newBook = new Book(id, name, author, status);
-  myLibrary.push(newBook);
-  event.target.reset();
-  renderBook(newBook);
-  addDeleteBookEvent(id);
-  addToggleStatusBookEvent(id);
-  updateLocalStorage();
-}
 
-function renderBook(newBook) {
-  const { id, name, author, status } = newBook;
-  booksContainer.insertAdjacentHTML(
-    "beforeend",
-    `
+  getId() {
+    return this.id;
+  }
+
+  toggleStatus() {
+    this.status = this.status === "read" ? "unread" : "read";
+  }
+
+  render() {
+    const { id, name, author, status } = this;
+    booksContainer.insertAdjacentHTML(
+      "beforeend",
+      `
       <tr class="library__item" data-id=${id}>
         <td>${name}</td>
         <td>${author}</td>
@@ -48,71 +31,109 @@ function renderBook(newBook) {
         <td><button class="button button--remove">delete</button></td>
       </tr>
     `
-  );
-}
+    );
+  }
 
-function addDeleteBookEvent(id) {
-  const removeCurrentBtn = document.querySelector(
-    `[data-id='${id}'] .button--remove`
-  );
-  removeCurrentBtn.addEventListener("click", () => {
-    const currentBook = removeCurrentBtn.closest(".library__item");
-    currentBook.remove();
-    myLibrary = myLibrary.filter((item) => item.id !== id);
-    updateLocalStorage();
-  });
-}
-
-function addToggleStatusBookEvent(id) {
-  const statusCurrentBtn = document.querySelector(
-    `[data-id='${id}'] .button--status`
-  );
-  statusCurrentBtn.addEventListener("click", () => {
-    statusCurrentBtn.textContent =
-      statusCurrentBtn.textContent === "read" ? "unread" : "read";
-    myLibrary = myLibrary.map((item) => {
-      if (item.id === id) {
-        item.toggleStatus();
-      }
-      return item;
+  addHandlers(updateStorage) {
+    const removeCurrentBtn = document.querySelector(
+      `[data-id='${this.id}'] .button--remove`
+    );
+    const statusCurrentBtn = document.querySelector(
+      `[data-id='${this.id}'] .button--status`
+    );
+    removeCurrentBtn.addEventListener("click", () => {
+      const currentBook = removeCurrentBtn.closest(".library__item");
+      currentBook.remove();
+      updateStorage("remove", this.id);
     });
-    updateLocalStorage();
-  });
+    statusCurrentBtn.addEventListener("click", () => {
+      statusCurrentBtn.textContent =
+        statusCurrentBtn.textContent === "read" ? "unread" : "read";
+      updateStorage("toggle", this.id);
+    });
+  }
 }
+class Library {
+  constructor() {
+    this.storage = [];
+  }
 
-function updateLocalStorage() {
-    localStorage.myLibrary = JSON.stringify(myLibrary);
-}
+  updateLocalStorage() {
+    localStorage.storage = JSON.stringify(this.storage);
+  }
 
-function deleteLocalStorage() {
-    localStorage.myLibrary = JSON.stringify([]);
-}
+  deleteLocalStorage() {
+    localStorage.storage = JSON.stringify([]);
+  }
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  addBookToLibrary(event);
-});
+  updateErrorMessage(message = "") {
+    errorMessage.textContent = message;
+  }
 
-deleteLibraryButton.addEventListener("click", () => {
-    form.reset();
-    myLibrary = [];
-    booksContainer.innerHTML = "";
-    deleteLocalStorage();
-});
-
-function initApp() {
-    const localData = localStorage.myLibrary;
-    if (localData) {
-        myLibrary = JSON.parse(localStorage.myLibrary);
-        for (let item of myLibrary) {
-            renderBook(item);
+  updateStorage(action, id) {
+    if (action === "remove") {
+      this.storage = this.storage.filter((item) => item.id !== id);
+    }
+    if (action === "toggle") {
+      this.storage = this.storage.map((item) => {
+        if (item.id === id) {
+          item.toggleStatus();
         }
+        return item;
+      });
+    }
+    this.updateLocalStorage();
+  }
+
+  addBook(event) {
+    const formData = new FormData(event.target);
+    const newBookData = Object.fromEntries(formData);
+    newBookData.id = this.storage.length + 1;
+    const { id, name, author, status } = newBookData;
+    if (name === "" || author === "") {
+      this.updateErrorMessage("Error: fill in all fields of the form");
+      return;
+    }
+    this.updateErrorMessage();
+    const book = new Book(id, name, author, status);
+    this.storage.push(book);
+    event.target.reset();
+    book.render();
+    book.addHandlers(this.updateStorage.bind(this));
+    this.updateLocalStorage();
+  }
+
+  addHandlers() {
+    deleteBtn.addEventListener("click", () => {
+      form.reset();
+      this.storage = [];
+      booksContainer.innerHTML = "";
+      this.deleteLocalStorage();
+    });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.addBook(event);
+    });
+  }
+
+  init() {
+    const localData = localStorage.storage;
+    if (localData) {
+      this.storage = JSON.parse(localData).map((item) => {
+        const { id, name, author, status } = item;
+        const book = new Book(id, name, author, status);
+        book.render();
+        book.addHandlers(this.updateStorage.bind(this));
+        return book;
+      });
     }
     if (!localData) {
-        localStorage.myLibrary = JSON.stringify([]);
+      localStorage.storage = JSON.stringify([]);
     }
+    this.addHandlers();
+  }
 }
 
-initApp();
+const newLibrary = new Library();
 
-
+newLibrary.init();
