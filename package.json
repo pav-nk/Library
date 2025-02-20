@@ -6,7 +6,7 @@
   "author": "pav-nk",
   "license": "ISC",
   "scripts": {
-    "clean": "rm dist/bundle.js",
+    "clean": "rm -R dist",
     "start": "parcel src/index.html",
     "build-prod": "parcel build src/index.html --public-url ./"
   },

@@ -49,7 +49,7 @@ a
         background: url("../icons/github.svg") center / 32px no-repeat
 
 .button
-    display: block
+    display: inline-block
     outline: none
     border: none
     border-radius: 5px
@@ -102,6 +102,9 @@ a
 
 .library
     padding: 40px 0
+    &__item>td:last-child
+        text-align: end
+
 
 .description
     margin-bottom: 40px
@@ -113,7 +116,7 @@ a
     display: flex
     justify-content: space-between
     align-items: flex-end
-    gap: 20px
+    gap: 1rem
     margin-bottom: 20px
     @media (max-width: 768px)
         align-items: stretch
@@ -123,14 +126,16 @@ a
         display: flex
         flex-direction: column
         gap: 5px
+        & .invalid
+            border: 3px solid color-4 !important
+        & .valid
+            border: 3px solid color-5 !important
         & input, select
             flex: 1 0 0
             padding: 5px 10px
             border: 3px solid color-2
             outline: none
             border-radius: 5px
-            &:focus
-                border: 3px solid color-5
         & label
             font-weight: bold
 
@@ -143,15 +148,12 @@ a
     width: 100%
     & thead > tr
         border-bottom: 1px solid color-2
+    & tbody tr
+        text-align: center
     & th
         padding 18px 0
-        text-align: left
     & td
         padding 18px 0
-        &:nth-child(4)
-            display: flex
-            justify-content: flex-end
-            align-items: center
 
 .read-status
     font-weight: bold

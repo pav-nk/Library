@@ -1,13 +1,16 @@
 // nodes
 const form = document.body.querySelector(".entry-field");
+const inputList = Array.from(form.querySelectorAll(".form-input"));
 const booksContainer = document.body.querySelector(".library__items");
 const deleteBtn = document.body.querySelector(".button--delete");
 const errorMessage = document.body.querySelector(".error-message");
+
 class Book {
-  constructor(id, name, author, status) {
+  constructor(id, name, author, pages, status) {
     this.id = id;
     this.name = name;
     this.author = author;
+    this.pages = pages;
     this.status = status;
   }
 
@@ -20,13 +23,14 @@ class Book {
   }
 
   render() {
-    const { id, name, author, status } = this;
+    const { id, name, author, pages, status } = this;
     booksContainer.insertAdjacentHTML(
       "beforeend",
       `
       <tr class="library__item" data-id=${id}>
         <td>${name}</td>
         <td>${author}</td>
+        <td>${pages}</td>
         <td><button class="button button--status">${status}</button></td>
         <td><button class="button button--remove">delete</button></td>
       </tr>
@@ -53,9 +57,11 @@ class Book {
     });
   }
 }
+
 class Library {
   constructor() {
     this.storage = [];
+    this.isValid = false;
   }
 
   updateLocalStorage() {
@@ -89,18 +95,44 @@ class Library {
     const formData = new FormData(event.target);
     const newBookData = Object.fromEntries(formData);
     newBookData.id = this.storage.length + 1;
-    const { id, name, author, status } = newBookData;
-    if (name === "" || author === "") {
-      this.updateErrorMessage("Error: fill in all fields of the form");
-      return;
-    }
-    this.updateErrorMessage();
-    const book = new Book(id, name, author, status);
+    const { id, name, author, pages, status } = newBookData;
+    this.updateErrorMessage("");
+    const book = new Book(id, name, author, pages, status);
     this.storage.push(book);
     event.target.reset();
     book.render();
     book.addHandlers(this.updateStorage.bind(this));
     this.updateLocalStorage();
+  }
+
+  handleFormSubmit(event) {
+    event.preventDefault();
+    this.addBook(event);
+    console.log(inputList);
+    inputList.forEach((input) => {
+      input.classList.remove("valid");
+    });
+  }
+
+  checkValidity(event) {
+    const formNode = event.target.form;
+    const inputNode = event.target;
+    const isValidForm = formNode.checkValidity();
+    if (inputNode.value === "") {
+      this.updateErrorMessage("");
+      inputNode.classList.remove("invalid");
+      inputNode.classList.remove("valid");
+    } else if (inputNode.checkValidity()) {
+      this.updateErrorMessage("");
+      inputNode.classList.remove("invalid");
+      inputNode.classList.add("valid");
+    } else {
+      this.updateErrorMessage(inputNode.dataset.errorMessage);
+      inputNode.classList.add("invalid");
+      inputNode.classList.remove("valid");
+    }
+
+    formNode.querySelector(".button").disabled = !isValidForm;
   }
 
   addHandlers() {
@@ -110,18 +142,16 @@ class Library {
       booksContainer.innerHTML = "";
       this.deleteLocalStorage();
     });
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      this.addBook(event);
-    });
+    form.addEventListener("input", (event) => this.checkValidity(event));
+    form.addEventListener("submit", (event) => this.handleFormSubmit(event));
   }
 
   init() {
     const localData = localStorage.storage;
     if (localData) {
       this.storage = JSON.parse(localData).map((item) => {
-        const { id, name, author, status } = item;
-        const book = new Book(id, name, author, status);
+        const { id, name, author, pages, status } = item;
+        const book = new Book(id, name, author, pages, status);
         book.render();
         book.addHandlers(this.updateStorage.bind(this));
         return book;

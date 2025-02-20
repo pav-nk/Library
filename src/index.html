@@ -1,100 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik+Mono+One&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" type="image/x-icon" href="./icons/favicon.svg" />
-    <link rel="stylesheet" href="./styles/reset.styl" />
-    <link rel="stylesheet" href="./styles/style.styl" />
-    <script src="script.js" defer></script>
-    <title>Library</title>
-  </head>
-  <body>
-    <header class="header">
-      <div class="wrapper">
-        <div class="header__inner">
-          <h1 class="title">Library</h1>
-          <div class="header__menu">
-            <button class="button button--delete"></button>
-            <a
-              class="link link--github"
-              href="https://github.com/pav-nk"
-              target="_blank"
-              rel="noopener noreferrer"
-            ></a>
-          </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik+Mono+One&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="./icons/favicon.svg" />
+  <link rel="stylesheet" href="./styles/reset.styl" />
+  <link rel="stylesheet" href="./styles/style.styl" />
+  <script src="script.js" defer></script>
+  <title>Library</title>
+</head>
+
+<body>
+  <header class="header">
+    <div class="wrapper">
+      <div class="header__inner">
+        <h1 class="title">Library</h1>
+        <div class="header__menu">
+          <button class="button button--delete"></button>
+          <a class="link link--github" href="https://github.com/pav-nk" target="_blank" rel="noopener noreferrer"></a>
         </div>
       </div>
-    </header>
-    <main>
-      <section class="library">
-        <div class="wrapper">
-          <p class="description">
-            This is a project for
-            <a href="https://www.theodinproject.com/">The Odin Project</a> in
-            which I have to make a library using
-            <span>Object Constructors</span> and
-            <span>LocalStorage</span>.<br />
-            You can also view the
-            <a href="https://github.com/pav-nk/Library">Github repository</a>
-            of this project.
+    </div>
+  </header>
+  <main>
+    <section class="library">
+      <div class="wrapper">
+        <p class="description">
+          This is a project for
+          <a href="https://www.theodinproject.com/">The Odin Project</a> in
+          which I have to make a library using
+          <span>Object Constructors</span> and
+          <span>LocalStorage</span>.<br />
+          You can also view the
+          <a href="https://github.com/pav-nk/Library">Github repository</a>
+          of this project.
+        </p>
+        <div class="library__inner">
+          <form class="entry-field" name="form" novalidate>
+            <div class="entry-field__item entry-field__item--name">
+              <label for="name">Book</label>
+              <input class="form-input" type="text" name="name" id="name" placeholder="enter the title of your book"
+                required autofocus pattern="^[a-zA-Zа-яА-ЯЁё\s\-]+$" data-error-message="Latin characters are allowed,
+                cyrillic letters, hyphens, and spaces in book field." />
+            </div>
+            <div class="entry-field__item entry-field__item--author">
+              <label for="author">Author</label>
+              <input class="form-input" type="text" name="author" id="author"
+                placeholder="enter the author of your book" required pattern="^[a-zA-Zа-яА-ЯЁё\s\-]+$"
+                data-error-message="Latin characters are allowed,
+                cyrillic letters, hyphens, and spaces in author field." />
+            </div>
+            <div class="entry-field__item entry-field__item--pages">
+              <label for="pages">Pages</label>
+              <input class="form-input" type="number" name="pages" id="pages" placeholder="count of pages" required
+                pattern="/\d/gm" min="2" max="1000" data-error-message="enter the number of pages from 2 to 1000" />
+            </div>
+            <div class="entry-field__item entry-field__item--status">
+              <label for="status">Status</label>
+              <select class="form-input" name="status" id="status" required>
+                <option value="read">Read</option>
+                <option value="unread">Not read</option>
+              </select>
+            </div>
+            <input type="submit" value="New book" class="button button--submit" />
+          </form>
+          <p class="error-message" id="error-message">
           </p>
-          <div class="library__inner">
-            <form class="entry-field" name="form" novalidate>
-              <div class="entry-field__item entry-field__item--name">
-                <label for="name">Book</label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  placeholder="enter the title of your book"
-                  required
-                />
-              </div>
-              <div class="entry-field__item entry-field__item--author">
-                <label for="author">Author</label>
-                <input
-                  name="author"
-                  type="text"
-                  id="author"
-                  placeholder="enter the author of your book"
-                  required
-                />
-              </div>
-              <div class="entry-field__item entry-field__item--status">
-                <label for="status">Status</label>
-                <select name="status" id="status">
-                  <option value="read">Read</option>
-                  <option value="unread">Not read</option>
-                </select>
-              </div>
-              <input
-                type="submit"
-                value="New book"
-                class="button button--submit"
-              />
-            </form>
-            <p class="error-message">
-            </p>
-            <table class="library__table table">
-              <thead>
-                <tr>
-                  <th>Book</th>
-                  <th>Author</th>
-                  <th colspan="2">Status</th>
-                </tr>
-              </thead>
-              <tbody class="library__items"></tbody>
-            </table>
-          </div>
+          <table class="library__table table">
+            <thead>
+              <tr>
+                <th>Book</th>
+                <th>Author</th>
+                <th>Pages</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody class="library__items"></tbody>
+          </table>
         </div>
-      </section>
-    </main>
-  </body>
+      </div>
+    </section>
+  </main>
+</body>
+
 </html>
